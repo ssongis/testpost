@@ -15,12 +15,12 @@ import java.time.LocalDateTime;
 @Builder
 
 public class PostDetailResponseDTO {
-
     private String title;
     private String content;
     private String writer;
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDateTime regDate;
+
 
     // 엔터티를 dto로 변경하는 생성자
     public PostDetailResponseDTO(PostEntity entity){
@@ -29,5 +29,4 @@ public class PostDetailResponseDTO {
         this.writer = entity.getWriter();
         this.regDate = entity.getRegDate();
     }
-
 }

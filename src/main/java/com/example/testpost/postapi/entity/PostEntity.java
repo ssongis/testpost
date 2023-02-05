@@ -16,6 +16,8 @@ import java.time.LocalDateTime;
 @Table(name = "postdb")
 public class PostEntity {
 
+    public static long sequence = 1L; // 연속된 일련번호
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long bno;
@@ -29,4 +31,5 @@ public class PostEntity {
     private String writer;
     @CreationTimestamp
     private LocalDateTime regDate;
+
 }
