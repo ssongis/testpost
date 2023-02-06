@@ -51,10 +51,9 @@ public class PostService {
 
     // 게시물 개별 조회
     public PostListResponseDTO detail(final String writer){
-        // Problem : writer로 쓰면 3개의 값이 전부 들어옴... 실제 값 비타오백 넣으면 해당 목록만 나옴...
 
-        List<PostEntity> originalDetailPost = postRepository.findByWriter(writer);
-
+        List<PostEntity> originalDetailPost = postRepository.findByWriter("비타오백");
+        log.info("/api/posts/{} GET request", writer); // null
         log.info("================= {}개의 게시물이 존재합니다. =================", originalDetailPost.stream().count());
 
         // 엔터티를 DTO로 변환
@@ -93,7 +92,7 @@ public class PostService {
     // 게시물 삭제
     public PostListResponseDTO delete(final Long bno) {
         try {
-            postRepository.deleteById(2L);
+            postRepository.deleteById(3L);
         } catch (Exception e) {
             log.error("게시물 번호 존재하지 않아 삭제에 실패했습니다. - bno: {}, err: {}"
                     , bno, e.getMessage());

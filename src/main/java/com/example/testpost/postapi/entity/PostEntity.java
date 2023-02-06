@@ -16,6 +16,7 @@ import java.time.LocalDateTime;
 @Table(name = "postdb")
 public class PostEntity {
 
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long bno;
@@ -29,5 +30,7 @@ public class PostEntity {
     private String writer;
     @CreationTimestamp
     private LocalDateTime regDate;
+
+    // 수정 시간
 
 }

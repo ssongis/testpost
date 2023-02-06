@@ -44,7 +44,7 @@ public class PostApiController {
     // 게시물 목록 조회
     @GetMapping
     public ResponseEntity<?> read(Long bno){
-
+        log.info("/posts GET request");
         PostListResponseDTO listResponseDTO = postService.retrieve(bno);
         log.info("/api/posts GET! - {}", listResponseDTO);
 
@@ -56,13 +56,20 @@ public class PostApiController {
     // 게시물 개별 조회
     @GetMapping("/{writer}")
     public ResponseEntity<?> detailRead(String writer){
+        try {
+            PostListResponseDTO listDetailResponseDTO = postService.detail(writer);
+            log.info("/api/posts/{} GET request!", writer); // null
+            log.info("/api/posts GET! - {}", listDetailResponseDTO);
 
-        PostListResponseDTO listDetailResponseDTO = postService.detail(writer);
-        log.info("/api/posts GET! - {}", listDetailResponseDTO);
+            return ResponseEntity
+                    .ok()
+                    .body(listDetailResponseDTO);
 
-        return ResponseEntity
-                .ok()
-                .body(listDetailResponseDTO);
+        } catch (Exception e) {
+            return ResponseEntity
+                    .notFound()
+                    .build();
+        }
     }
 
     // 게시물 수정
