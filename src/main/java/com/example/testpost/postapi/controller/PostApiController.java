@@ -34,7 +34,7 @@ public class PostApiController {
     // 게시물 등록
     @PostMapping("/create")
     public ResponseEntity<?> create(@RequestBody PostCreateDTO createDTO) {
-        log.info("/api/posts POST! - {}", createDTO);
+        log.info("/api/posts POST request! - {}", createDTO);
         PostDetailResponseDTO detailResponseDTO = postService.create(createDTO);
         return ResponseEntity
                 .ok()
@@ -66,25 +66,38 @@ public class PostApiController {
     }
 
     // 게시물 수정
-//    @PutMapping("/{bno}")
-//    public ResponseEntity<?> update(Long bno,@RequestBody PostModifyRequestDTO modifyRequestDTO) {
-//        log.info("modifying dto : {}", modifyRequestDTO);
-//
-//        try {
-//            PostListResponseDTO listResponseDTO = postService.update(bno, modifyRequestDTO);
-//            return ResponseEntity.ok().body(listResponseDTO);
-//        } catch (Exception e) {
-//            return ResponseEntity.internalServerError()
-//                    .body(PostListResponseDTO.builder().error(e.getMessage()));
-//        }
-//    }
+    @PatchMapping("/{bno}")
+    public ResponseEntity<?> modify(
+            @PathVariable Long bno
+            , @RequestBody PostModifyRequestDTO modifyDTO
+    ) {
+        log.info("/api/posts/{} PUT request!", bno);
+        log.info("수정정보: {}", modifyDTO);
 
+        try {
+            PostDetailResponseDTO responseDTO = postService.update(bno, modifyDTO);
+            return ResponseEntity
+                    .ok()
+                    .body(responseDTO);
+        } catch (RuntimeException e) {
+            log.error("수정 실패: caused by - {}", e.getMessage());
+            return ResponseEntity
+                    .internalServerError()
+                    .body(e.getMessage());
+        }
+    }
 
     // 게시물 삭제
-//    @DeleteMapping("/{bno}")
-//    public ResponseEntity<?> delete(Long bno) {
-//        log.info("/api/posts/{} DELETE request!", bno);
-//        PostListResponseDTO listResponseDTO = postService.delete(bno);
-//        return ResponseEntity.ok().body(listResponseDTO);
-//    }
+    @DeleteMapping("/{bno}")
+    public ResponseEntity<?> remove(@PathVariable Long bno) {
+        log.info("/posts/{} DELETE request", bno);
+        try {
+            postService.delete(bno);
+            return ResponseEntity.ok().body("삭제 성공!");
+        } catch (RuntimeException e) {
+            return ResponseEntity
+                    .internalServerError()
+                    .body(e.getMessage());
+        }
+    }
 }

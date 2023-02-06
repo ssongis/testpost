@@ -12,8 +12,11 @@ public interface PostRepository extends JpaRepository<PostEntity, Long> {
     // 게시물 목록 조회하기
     List<PostEntity> findAll();
 
-    // 작성자로 조회하기
+    // 특정 회원의 게시물 목록 조회
     List<PostEntity> findByWriter(String writer);
+
+    @Override
+    void deleteById(Long bno);
 
     // 제목으로 조회하기
     //@Query("select p from PostEntity p where p.title like ?1")

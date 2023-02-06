@@ -8,7 +8,7 @@ public class TestpostApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(TestpostApplication.class, args);
-		System.out.println("\n================================= Server is running... =================================\n");
+		System.out.println("\n================================= START =================================\n");
 
 	}
 

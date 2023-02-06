@@ -50,8 +50,6 @@ public class PostService {
     }
 
     // 게시물 개별 조회
-    // 위의 값
-
     public PostListResponseDTO detail(final String writer){
         // Problem : writer로 쓰면 3개의 값이 전부 들어옴... 실제 값 비타오백 넣으면 해당 목록만 나옴...
 
@@ -69,17 +67,39 @@ public class PostService {
                 .build();
     }
 
+    // 게시물 수정
+    public PostDetailResponseDTO update(final Long bno, final PostModifyRequestDTO modifyDTO)
+            throws RuntimeException {
+        // 수정 전 데이터 조회하기
+        final PostEntity entity = postRepository
+                .findById(bno)
+                .orElseThrow(
+                        () -> new RuntimeException("수정 전 데이터가 존재하지 않습니다.")
+                );
+        // 수정 진행
+        String modTitle = modifyDTO.getTitle();
+        String modContent = modifyDTO.getContent();
+
+        if (modTitle != null) entity.setTitle(modTitle);
+        if (modContent != null) entity.setContent(modContent);
+//        entity.setModifyDate(LocalDateTime.now());
+
+        PostEntity modifiedPost = postRepository.save(entity);
+        return new PostDetailResponseDTO(modifiedPost);
+    }
+
+
 
     // 게시물 삭제
-//    public PostListResponseDTO delete(final Long bno) {
-//        try {
-//            postRepository.deleteById(bno);
-//        } catch (Exception e) {
-//            log.error("게시물 번호 존재하지 않아 삭제에 실패했습니다. - bno: {}, err: {}"
-//                    , bno, e.getMessage());
-//            throw new RuntimeException("게시물 번호가 존재하지 않아 삭제에 실패했습니다.");
-//        }
-//        return retrieve(bno);
-//    }
+    public PostListResponseDTO delete(final Long bno) {
+        try {
+            postRepository.deleteById(2L);
+        } catch (Exception e) {
+            log.error("게시물 번호 존재하지 않아 삭제에 실패했습니다. - bno: {}, err: {}"
+                    , bno, e.getMessage());
+            throw new RuntimeException("게시물 번호가 존재하지 않아 삭제에 실패했습니다.");
+        }
+        return retrieve(bno);
+    }
 
 }
